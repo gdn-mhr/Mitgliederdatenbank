@@ -15,15 +15,6 @@
 
 	<link rel="stylesheet" href="includes/style.css">
 	
-	<script>
-	function setSelectedView(idx) {
-		//$_SESSION["selected_view"] = idx;
-		//alert(idx);
-		window.location.href = "view.php";
-		return false;
-	}
-</script>
-	
   </head>
   <body>
   <!-- Navbar -->

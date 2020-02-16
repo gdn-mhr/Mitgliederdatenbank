@@ -82,7 +82,7 @@ while($row = mysqli_fetch_array($viewresult))
 	$d = str_replace("<p>Achtung: Diese View wurde aufgrund einer gelöschten Spalte geändert.</p>","",$d);
 	$d .= "<p>Achtung: Diese View wurde aufgrund einer gelöschten Spalte geändert.</p>";
 	$c = unserialize($row['dat']);
-	
+
 	$new = array();
 	$ix = 0;
 	$work = false;
@@ -94,33 +94,24 @@ while($row = mysqli_fetch_array($viewresult))
 			$work = true;
 		}
 	}
-	file_put_contents('./log_'.date("j.n.Y").'.log', 'Done checking cloumns', FILE_APPEND);
-	if ($work) {
-		file_put_contents('./log_'.date("j.n.Y").'.log', 'Something needs to be done already', FILE_APPEND);
-	}
+
+
 	$conds = unserialize($row['cond']);
 	if ($conds == []) {
-		file_put_contents('./log_'.date("j.n.Y").'.log', 'Nothing to do', FILE_APPEND);
 		$n_conds = [];
 	} else {
 		[$n_conds, $c_work] = deleteColumnFromConditions( $_POST['str'], $conds);
-		if ($c_work) {
-			file_put_contents('./log_'.date("j.n.Y").'.log', 'But now i definitly need to do sth!', FILE_APPEND);
-		}
-		file_put_contents('./log_'.date("j.n.Y").'.log', serialize($n_conds), FILE_APPEND);
 		$work = ($work || $c_work);
 	}
-	
-	//if ($work) {
+
+	if ($work) {
 		$b = "UPDATE views SET dat = '" .  (serialize($new)) . "' WHERE id = '" .  $i . "';";
 		$e = "UPDATE views SET description = '" .  ($d) . "' WHERE id = '" .  $i . "';";
 		$f = "UPDATE views SET cond = '" . (serialize($n_conds)) . "' WHERE id = '" . $i . "';";
 		mysqli_query($link, $b);
-		console_log($e);
 		mysqli_query($link, $e);
-		file_put_contents('./log_'.date("j.n.Y").'.log', $f, FILE_APPEND);
 		mysqli_query($link, $f);
-	//}
+	}
 }
 
 			

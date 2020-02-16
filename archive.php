@@ -110,18 +110,17 @@ echo "<div><table
 //print_r ($cols);
 foreach ($cols as $i => $cname) {
 	if ($i > 1) {
-    echo "<th data-field=\"". $i ."\"   data-filter-control=\"input\" data-sortable=\"true\" data-editable=\"true\">" . $cname . "</th>";
+    echo "<th data-field=\"". $i . "\"   data-filter-control=\"input\" data-sortable=\"true\" data-editable=\"true\">" . $cname . "</th>";
 	} else {
-	echo "<th data-field=\"ID\"  data-sortable=\"true\" data-editable=\"false\">" . $cname . "</th>";
+	echo "<th data-field=\"ID\"  data-sortable=\"true\" data-editable=\"false\" data-width=\"20px\">" . $cname . "</th>";
 	}
 }
-	echo '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents">Delete</th>';
+	echo '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents" data-width="30px">Wiederherstellen & <br>  Löschen</th>';
 echo "</tr>";
 echo "</thead>";
 unset($cname);
 unset($i);
 
-//print_r ($dataresult);
 
 while($row = mysqli_fetch_array($dataresult, MYSQLI_NUM))
 {
@@ -163,7 +162,7 @@ $.fn.editable.defaults.mode = 'inline';
   });
   
   function operateFormatter(value, row, index) {
-			return '<div><a class="remove" href="javascript:void(0)" title="Remove" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash"></i></a><a class="restore" href="javascript:void(0)" title="Restore" data-toggle=\"modal\" data-target=\"#confirm-restore\"><i class="fa fa-trash-restore"></i></a></div>';		
+			return '<div> <a class="restore" href="javascript:void(0)" title="Wiederherstellen" data-toggle=\"modal\" data-target=\"#confirm-restore\"><i class="fa fa-trash-restore"  style="padding-right: 10px; color: green;"></i></a><a class="remove" href="javascript:void(0)" title="Löschen" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash" style="color: red;" ></i></a></div>';		
   }
   
     var operateEvents = {
@@ -235,6 +234,7 @@ $.fn.editable.defaults.mode = 'inline';
                 </div>
                 <div class="modal-body">
                     <p>Willst Du diesen Eintrag wirklich aus dem Archiv wiederherstellen?</p>
+                    <p>Alle Spalten, die in der aktuellen Datenbank nicht mehr vorhanden sind, gehen dabei verloren.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>

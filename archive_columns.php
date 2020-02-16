@@ -31,6 +31,8 @@ require_once "includes/config.php";
 <?php 
 	include 'includes/header.php';
 ?>	
+
+<div style="width:80%; min-width: 600px; display: block; margin-left: auto; margin-right: auto;">
 <h2>Spalten verwalten</h2>
 
 <?php
@@ -78,9 +80,9 @@ echo "<div><table
 <tr>";
 //print_r ($cols);
 
-    echo "<th data-field=\"ID\" data-editable=\"false\">ID</th>";
-	echo "<th data-field=\"Name\" data-editable=\"true\">Name</th>";
-	echo '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents">Delete</th>';
+    echo "<th data-field=\"ID\" data-editable=\"false\" data-width=\"20px\">ID</th>";
+	echo "<th data-field=\"Name\" data-editable=\"true\" >Name</th>";
+	echo '<th data-field="Delete" data-editable="false" data-width="20px" data-formatter="operateFormatter" data-events="operateEvents" >Löschen</th>';
 echo "</tr>";
 echo "</thead>";
 	
@@ -122,15 +124,10 @@ $.fn.editable.defaults.mode = 'inline';
   })
   
     function operateFormatter(value, row, index) {
-		//var locked = [<?php echo implode(', ',  $GLOBALS['lock_cols'] ) ?>]; 
-		//var al = <?php echo $_SESSION["access_level"]; ?>;
-		//console.log(locked.includes(value));
-		console.log(value);
 		if(value == "true") {
-		//if (<?php echo $_SESSION["access_level"]; ?> >= value && !(locked.includes(value))) {
-			return '<a class="remove" href="javascript:void(0)" title="Remove" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash"></i></a>'
+			return '<a class="remove" href="javascript:void(0)" title="Löschen" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash"></i></a>'
 		} else {
-			return '<a class="locked" href="javascript:void(0)" title="This item has been locked."><i class="fa fa-lock"></i></a>'
+			return '<a class="locked" href="javascript:void(0)" title="Diese Spalte kann derzeit nicht gelöscht werden (wahscheinlich ist sie noch in der Datenbank vorhanden)."><i class="fa fa-lock"></i></a>'
 		}
   }
   
@@ -153,7 +150,7 @@ $.fn.editable.defaults.mode = 'inline';
 		//$.post('includes/delete_column.php', { str: id });
     },
 	'click .locked': function (e, value, row, index) {
-		alert('You are not allowed to delete this item!');
+		
     }
 	}
 </script>
@@ -187,6 +184,7 @@ $.fn.editable.defaults.mode = 'inline';
 <h2>Neue Spalte hinzufügen</h2>
 <p>Neue Spalten können im Archiv nicht erstellt werden.</p>
 </div>    
+</div>
 <?php 
 	include 'includes/footer.php';
 ?>

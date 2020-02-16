@@ -195,9 +195,9 @@ function reconstructConditions($cond, $idx) {
 								
                                    </table>  
 							     
-                          </div>  
-						  <hr>
-						  <input type="hidden" id="has_cond" name="has_cond" value="false" />
+                          </div>
+                          <hr>
+                          <input type="hidden" id="has_cond" name="has_cond" value="false" />
 							   
                                <input type="submit" name="submit" id="submit" class="btn btn-outline-success" value="Submit" style="display: block; margin-left: auto; margin-right: auto;" />  
                            

@@ -53,9 +53,6 @@ if(isset($link)) {
 	$upd = "UPDATE views SET name ='" . $bez . "', description = '" . $des . "', dat = '" . serialize($cols) . "', cond = '" . serialize($conds) . "' WHERE id = '" . $id . "';";
 	
 
-//	echo $upd;
-//$upd = "UPDATE columns SET name = '" .  $_POST['value'] . "' WHERE `id` = '" .  $_POST['pk'] . "'";   
-//$upd = "UPDATE data SET `2` = 'Gideonqsqq' WHERE `1` = '1'";
 mysqli_query($link, $upd);
 	
 header("location: ../show_views.php");

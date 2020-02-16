@@ -76,11 +76,11 @@ unset($n);
 					 <h3 align="center">Spalten</h3>
                           <div class="table-responsive">  
                                <table class="table table-bordered" id="dynamic_field_c">  
-							   <colgroup>
+                            	<colgroup>
       								<col style="width: 90%;">
 									<col style="width: 10%;">
 								</colgroup>
-                                    <tr id="row0">  
+                                    <tr id="row0"> 
 										<td><fieldset>
 										<label>Spalte auswählen</label>
 										<select name="col[]" class="form-control" >
@@ -112,7 +112,7 @@ unset($n);
                           </div>  
 						  <hr>
 						  <input type="hidden" id="has_cond" name="has_cond" value="false" />
-						  <input type="submit" name="submit" id="submit" class="btn btn-outline-success" value="Submit" style="display: block; margin-left: auto; margin-right: auto;" /> 
+						  <input type="submit" name="submit" id="submit" class="btn btn-outline-success" value="Submit" style="display: block; margin-left: auto; margin-right: auto;" />
                      </form>  
                 </div>  
 <?php include 'includes/footer.php' ?>   
@@ -155,7 +155,6 @@ unset($n);
  
  $(document).ready(function(){  
       var i=1;
-	  
       $('#addc').click(function(){  
            i++;
 		   var opt =  <?php echo json_encode($opt); ?>;		   

@@ -80,8 +80,6 @@ echo '</table></div></div>';
 <?php 
 	loadData($link);
 ?>
-
-
 	
 	
 	<hr>

@@ -30,8 +30,6 @@ if($_SESSION["access_level"]<=1){
 require_once "config.php";
 
 if(isset($link)) {
-	
-	file_put_contents("post.log", print_r($_POST, true));
 
 $upd = "UPDATE data SET `" . (strip_tags( trim($_POST['name']))) . "` = '" .  (strip_tags( trim($_POST['value']))) . "' WHERE `1` = '" .  (strip_tags( trim($_POST['pk']))) . "'";   
 

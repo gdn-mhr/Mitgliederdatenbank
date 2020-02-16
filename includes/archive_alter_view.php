@@ -26,18 +26,33 @@ if($_SESSION["access_level"]<=1){
 
 require_once "config.php";
 
+
+function packConds($str) {
+	if(isset($_POST['c_c-' . $str])) {
+		return [$_POST['c_c-' . $str], $_POST['c_t-' . $str], $_POST['c_i-' . $str]];
+	} else {
+		return [(packConds($str . '-1')), $_POST['c_o-' . $str], (packConds($str . '-2'))];
+	}
+
+}
+
+
+
 if(isset($link)) {
 	$id = (int) strip_tags( trim($_POST['id']));
 	$bez = strip_tags( trim($_POST['name']));
 	$des = strip_tags( trim($_POST['desc']));
 	$cols = $_POST['col'];
 	
-	$upd = "UPDATE archive_views SET name ='" . $bez . "', description = '" . $des . "', dat = '" . serialize($cols) . "' WHERE id = '" . $id . "';";
+	if (strip_tags( trim($_POST['has_cond'])) == 'true') {
+		$conds = packConds('1');
+	} else {
+		$conds = [];
+	}
+	
+	$upd = "UPDATE archive_views SET name ='" . $bez . "', description = '" . $des . "', dat = '" . serialize($cols) . "', cond = '" . serialize($conds) . "' WHERE id = '" . $id . "';";
 	
 
-//	echo $upd;
-//$upd = "UPDATE columns SET name = '" .  $_POST['value'] . "' WHERE `id` = '" .  $_POST['pk'] . "'";   
-//$upd = "UPDATE data SET `2` = 'Gideonqsqq' WHERE `1` = '1'";
 mysqli_query($link, $upd);
 	
 header("location: ../archive_show_views.php");

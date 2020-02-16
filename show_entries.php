@@ -121,18 +121,17 @@ echo "<div><table
 //print_r ($cols);
 foreach ($cols as $i => $cname) {
 	if ($i > 1) {
-    echo "<th data-field=\"". $i . "\"  data-filter-control=\"input\" data-sortable=\"true\" data-editable=\"true\">" . $cname . "</th>";
+    echo "<th data-field=\"". $i . "\"   data-filter-control=\"input\" data-sortable=\"true\" data-editable=\"true\">" . $cname . "</th>";
 	} else {
-	echo "<th data-field=\"ID\"  data-sortable=\"true\" data-editable=\"false\">" . $cname . "</th>";
+	echo "<th data-field=\"ID\"  data-sortable=\"true\" data-editable=\"false\" data-width=\"20px\">" . $cname . "</th>";
 	}
 }
-	echo '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents">Delete</th>';
+	echo '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents" data-width="30px">Archivieren & <br>  Löschen</th>';
 echo "</tr>";
 echo "</thead>";
 unset($cname);
 unset($i);
 
-//echo ($dataresult);
 
 while($row = mysqli_fetch_array($dataresult, MYSQLI_NUM))
 {
@@ -174,7 +173,7 @@ $.fn.editable.defaults.mode = 'inline';
   });
   
   function operateFormatter(value, row, index) {
-			return '<div> <a class="archive" href="javascript:void(0)" title="Archive" data-toggle=\"modal\" data-target=\"#confirm-archive\"><i class="fa fa-folder-open"></i></a> <a class="remove" href="javascript:void(0)" title="Remove" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash"></i></a></div>';		
+			return '<div> <a class="archive" href="javascript:void(0)" title="Archivieren" data-toggle=\"modal\" data-target=\"#confirm-archive\"><i class="fa fa-folder-open" style="padding-right: 10px; color: orange;"></i></a> <a class="remove" href="javascript:void(0)" title="Löschen" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash" style="color: red;" ></i></a></div>';		
   }
   
     var operateEvents = {
@@ -225,7 +224,7 @@ $.fn.editable.defaults.mode = 'inline';
                     
                 </div>
                 <div class="modal-body">
-                    <p>Willst Du diesen Eintrag wirklich löschen?</p>
+                    <p>Willst Du diesen Eintrag wirklich endgültig löschen?</p>
                     <p>Diese Aktion kann nicht rückgängig gemacht werden!</p>
                 </div>
                 <div class="modal-footer">
