@@ -53,15 +53,17 @@ if(isset($link)) {
 	
 	file_put_contents("testc.log", print_r($conds, true));
 	
-	$upd = "INSERT INTO views VALUES (NULL, '" . $bez . "', '" . $des . "', '" . serialize($cols) . "');";
+	$upd = "INSERT INTO views VALUES (NULL, '" . $bez . "', '" . $des . "', '" . serialize($cols) . "', '" . serialize($conds) . "');";
 	
 
 //	echo $upd;
 //$upd = "UPDATE columns SET name = '" .  $_POST['value'] . "' WHERE `id` = '" .  $_POST['pk'] . "'";   
 //$upd = "UPDATE data SET `2` = 'Gideonqsqq' WHERE `1` = '1'";
-//mysqli_query($link, $upd);
+
+
+	mysqli_query($link, $upd);
 	
-header("location: ../advanced_conds.php");
+	header("location: ../advanced_conds.php");
     exit;	
 }
 

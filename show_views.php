@@ -56,7 +56,7 @@ foreach($ns as $i => $n) {
 	echo ("<td><h3>". $n . "</h3>");
 	echo ("<p>" . $ds[$i] . "</p></td>");
 	echo '<td style=" text-align: center;"><div style="display:inline-block;">';
-	echo ('<form style="display:inline-block; padding:5px;" action="view.php" method="post"><input type="submit" class="btn btn-outline-success" name="' . $i . '" value="Öffnen" /></form>');
+	echo ('<form style="display:inline-block; padding:5px;" action="advanced_view.php" method="post"><input type="submit" class="btn btn-outline-success" name="' . $i . '" value="Öffnen" /></form>');
 	echo ('<form style="display:inline-block; padding:5px;" action="edit_view.php" method="post"><input type="submit" class="btn btn-outline-info" name="' . $i . '" value="Bearbeiten" /></form>');
 	echo ('<form style="display:inline-block; padding:5px;" action="includes/delete_view.php" method="post"><input type="submit" class="btn btn-outline-danger" name="' . $i . '" value="Löschen" /></form>');
 	echo '</div></td></tr>';

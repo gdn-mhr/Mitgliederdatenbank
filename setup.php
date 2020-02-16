@@ -40,7 +40,8 @@ if($link) {
 		id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 		name VARCHAR(255) NOT NULL,
 		description VARCHAR(4096) NOT NULL,
-		dat VARCHAR(4096) NOT NULL
+		dat VARCHAR(4096) NOT NULL,
+		cond VARCHAR(4096) NOT NULL
 	);";
 	mysqli_query($link, $vie);
 	
@@ -68,6 +69,7 @@ if($link) {
 		name VARCHAR(255) NOT NULL,
 		description VARCHAR(4096) NOT NULL,
 		dat VARCHAR(4096) NOT NULL
+		cond VARCHAR(4096) NOT NULL
 	);";
 	mysqli_query($link, $a_vie);
 	

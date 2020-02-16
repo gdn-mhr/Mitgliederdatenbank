@@ -5,8 +5,16 @@ Array
     [col] => Array
         (
             [0] => 2
+            [1] => 13
         )
 
-    [has_cond] => false
+    [c_c-1-1] => 2
+    [c_t-1-1] => 1
+    [c_i-1-1] => G
+    [c_o-1] => 1
+    [c_c-1-2] => 13
+    [c_t-1-2] => 1
+    [c_i-1-2] => X
+    [has_cond] => true
     [submit] => Submit
 )
