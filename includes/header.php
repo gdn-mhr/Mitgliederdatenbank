@@ -14,6 +14,16 @@
 	<link rel="stylesheet" type="text/css" href="includes/bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.css">
 
 	<link rel="stylesheet" href="includes/style.css">
+	
+	<script>
+	function setSelectedView(idx) {
+		//$_SESSION["selected_view"] = idx;
+		//alert(idx);
+		window.location.href = "view.php";
+		return false;
+	}
+</script>
+	
   </head>
   <body>
   <!-- Navbar -->

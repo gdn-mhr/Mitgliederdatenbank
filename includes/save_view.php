@@ -26,12 +26,27 @@ if($_SESSION["access_level"]<=1){
 
 require_once "config.php";
 
+function packConds($str) {
+	if(isset($_POST['c_c-' . $str])) {
+		return [$_POST['c_c-' . $str], $_POST['c_t-' . $str], $_POST['c_i-' . $str]];
+	} else {
+		return [(packConds($str . '-1')), $_POST['c_o-' . $str], (packConds($str . '-2'))];
+	}
+
+}
+
 if(isset($link)) {
 	$bez = (strip_tags( trim($_POST['name'])));
 	$des = (strip_tags( trim($_POST['desc'])));
 	$cols = $_POST['col'];
 	
-	$upd = "INSERT INTO views VALUES (NULL, '" . $bez . "', '" . $des . "', '" . serialize($cols) . "');";
+	if (strip_tags( trim($_POST['has_cond'])) == 'true') {
+		$conds = packConds('1');
+	} else {
+		$conds = [];
+	}
+	
+	$upd = "INSERT INTO views VALUES (NULL, '" . $bez . "', '" . $des . "', '" . serialize($cols) . "', '" . serialize($conds) . "');";
 	
 
 //	echo $upd;

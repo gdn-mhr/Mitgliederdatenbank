@@ -23,6 +23,15 @@ if($_SESSION["access_level"]<=1){
     exit;
 }
 
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+	
+	$_SESSION['selected_view'] = $_POST['name'];
+	header("location: view.php");
+    exit;
+	
+	
+}
+
 // Include config file
 require_once "includes/config.php";
 
@@ -56,7 +65,7 @@ foreach($ns as $i => $n) {
 	echo ("<td><h3>". $n . "</h3>");
 	echo ("<p>" . $ds[$i] . "</p></td>");
 	echo '<td style=" text-align: center;"><div style="display:inline-block;">';
-	echo ('<form style="display:inline-block; padding:5px;" action="advanced_view.php" method="post"><input type="submit" class="btn btn-outline-success" name="' . $i . '" value="Öffnen" /></form>');
+	echo ('<form style="display:inline-block; padding:5px;" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '" method="post"><button type="submit" class="btn btn-outline-success" name="name" id="' . $i . '" value="' . $i . '">Öffnen</button></form>');
 	echo ('<form style="display:inline-block; padding:5px;" action="edit_view.php" method="post"><input type="submit" class="btn btn-outline-info" name="' . $i . '" value="Bearbeiten" /></form>');
 	echo ('<form style="display:inline-block; padding:5px;" action="includes/delete_view.php" method="post"><input type="submit" class="btn btn-outline-danger" name="' . $i . '" value="Löschen" /></form>');
 	echo '</div></td></tr>';
@@ -71,6 +80,8 @@ echo '</table></div></div>';
 <?php 
 	loadData($link);
 ?>
+
+
 	
 	
 	<hr>

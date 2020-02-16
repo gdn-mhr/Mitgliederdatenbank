@@ -26,11 +26,12 @@ if($_SESSION["access_level"]<=1){
 // Include config file
 require_once "includes/config.php";
 
-$index = 0;
-
-foreach ($_POST as $i => $n) {
-	$index = $i;
+if(!isset($_SESSION["selected_view"])){
+    header("location: show_views.php");
+    exit;
 }
+
+$index = $_SESSION["selected_view"];
 
 ?>
 
@@ -66,7 +67,47 @@ foreach ($_POST as $i => $n) {
 
 <?php
 
-$sql = "SELECT id, name, description, dat FROM views WHERE id='" . $index . "';";
+function arrayToWhere ($cond) {
+	if (is_array($cond[0])) {
+		if ($cond[1] == 1) {
+			$op = 'AND';
+		} else {
+			$op = 'OR';
+		}
+		return '(' . (arrayToWhere($cond[0])) . ' ' . $op . ' ' . (arrayToWhere($cond[2])) . ')';
+	} else {
+		switch ($cond[1]) {
+			case 1:
+				$t = ' = ';
+				break;
+			case 2:
+				$t = ' > ';
+				break;
+			case 3:
+				$t = ' < ';
+				break;
+			case 4:
+				$t = ' >= ';
+				break;
+			case 5:
+				$t = ' <= ';
+				break;
+			case 6:
+				$t = ' <> ';
+				break;
+			case 7:
+				$t = ' LIKE ';
+				break;
+			case 8:
+				$t = ' NOT LIKE ';
+				break;
+		}
+		
+		return '( `' . $cond[0] . '`' . $t . "'" . $cond[2] . "' )" ;
+	}
+}
+
+$sql = "SELECT id, name, description, dat, cond FROM views WHERE id='" . $index . "';";
 $result = $link->query($sql);
 
 while($row = mysqli_fetch_array($result))
@@ -75,6 +116,7 @@ $id = $row['id'];
 $name = $row['name'];
 $desc = $row['description'];
 $dat = unserialize($row['dat']);
+$conds = unserialize($row['cond']);
 }
 //prepare statements
 $c = "SELECT id, name, access_level FROM columns WHERE id='1' UNION ";
@@ -100,6 +142,9 @@ while($row = mysqli_fetch_array($colresult))
 $a = rtrim($a, ",");
 $a .= " FROM data"; 
 
+if ($conds != []) {
+	$a = $a ." WHERE " . arrayToWhere($conds);
+}	
 
 
 $dataresult = $link->query($a);
