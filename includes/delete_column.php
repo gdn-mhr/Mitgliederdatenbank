@@ -31,6 +31,30 @@ function console_log( $data ){
   echo '</script>';
 }
 
+function deleteColumnFromConditions($id, $conditions) {
+	if (is_array($conditions[0])) {
+		[$n_cond, $b] = deleteColumnFromConditions($id, $conditions[0]);
+		[$n_cond2, $b2] = deleteColumnFromConditions($id, $conditions[2]);
+		if ($n_cond == 'null' && $n_cond2 == 'null') {
+			$c = 'null';
+		} elseif ($n_cond == 'null') {
+			$c = $n_cond2;
+		} elseif ($n_cond2 == 'null') {
+			$c = $n_cond;
+		} else {
+			$c = [$n_cond, $conditions[1], $n_cond2];
+		}
+		return [$c, ($b || $b2)];
+	} else {
+		if ($conditions[0] == $id) {
+			return ['null', true];
+		} else {
+			return [$conditions, false];
+		}	
+	}
+	
+}
+
 // Include config file
 require_once "config.php";
 
@@ -46,7 +70,7 @@ $colresult = $link->query($sql);
 mysqli_query($link, $sql);
 
 
-$a = "SELECT id, description, dat FROM views";
+$a = "SELECT id, description, dat, cond FROM views";
 
 $viewresult = $link->query($a);
 
@@ -58,6 +82,7 @@ while($row = mysqli_fetch_array($viewresult))
 	$d = str_replace("<p>Achtung: Diese View wurde aufgrund einer gelöschten Spalte geändert.</p>","",$d);
 	$d .= "<p>Achtung: Diese View wurde aufgrund einer gelöschten Spalte geändert.</p>";
 	$c = unserialize($row['dat']);
+	
 	$new = array();
 	$ix = 0;
 	$work = false;
@@ -69,13 +94,33 @@ while($row = mysqli_fetch_array($viewresult))
 			$work = true;
 		}
 	}
+	file_put_contents('./log_'.date("j.n.Y").'.log', 'Done checking cloumns', FILE_APPEND);
 	if ($work) {
+		file_put_contents('./log_'.date("j.n.Y").'.log', 'Something needs to be done already', FILE_APPEND);
+	}
+	$conds = unserialize($row['cond']);
+	if ($conds == []) {
+		file_put_contents('./log_'.date("j.n.Y").'.log', 'Nothing to do', FILE_APPEND);
+		$n_conds = [];
+	} else {
+		[$n_conds, $c_work] = deleteColumnFromConditions( $_POST['str'], $conds);
+		if ($c_work) {
+			file_put_contents('./log_'.date("j.n.Y").'.log', 'But now i definitly need to do sth!', FILE_APPEND);
+		}
+		file_put_contents('./log_'.date("j.n.Y").'.log', serialize($n_conds), FILE_APPEND);
+		$work = ($work || $c_work);
+	}
+	
+	//if ($work) {
 		$b = "UPDATE views SET dat = '" .  (serialize($new)) . "' WHERE id = '" .  $i . "';";
 		$e = "UPDATE views SET description = '" .  ($d) . "' WHERE id = '" .  $i . "';";
+		$f = "UPDATE views SET cond = '" . (serialize($n_conds)) . "' WHERE id = '" . $i . "';";
 		mysqli_query($link, $b);
 		console_log($e);
 		mysqli_query($link, $e);
-	}
+		file_put_contents('./log_'.date("j.n.Y").'.log', $f, FILE_APPEND);
+		mysqli_query($link, $f);
+	//}
 }
 
 			
