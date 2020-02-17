@@ -5,8 +5,8 @@ if($link) {
 	//table for users
 	$usr = "CREATE TABLE users (
 		id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-		username VARCHAR(50) NOT NULL UNIQUE,
-		password VARCHAR(255) NOT NULL,
+		username TEXT NOT NULL UNIQUE,
+		password TEXT NOT NULL,
 		access_level VARCHAR(1) NOT NULL,
 		created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 	);";
@@ -20,7 +20,7 @@ if($link) {
 	//table for columns
 	$col = "CREATE TABLE columns (
 		id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-		name VARCHAR(255) NOT NULL,
+		name TEXT NOT NULL,
 		access_level INT NOT NULL DEFAULT 0
 	);";
 	mysqli_query($link, $col);
@@ -38,17 +38,17 @@ if($link) {
 	//table forviews
 	$vie = "CREATE TABLE views (
 		id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-		name VARCHAR(255) NOT NULL,
-		description VARCHAR(4096) NOT NULL,
-		dat VARCHAR(4096) NOT NULL,
-		cond VARCHAR(4096) NOT NULL
+		name TEXT NOT NULL,
+		description TEXT NOT NULL,
+		dat TEXT NOT NULL,
+		cond TEXT NOT NULL
 	);";
 	mysqli_query($link, $vie);
 	
 	//table for columns in archive
 	$a_col = "CREATE TABLE archive_columns (
 		id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-		name VARCHAR(255) NOT NULL,
+		name TEXT NOT NULL,
 		access_level INT NOT NULL DEFAULT 0
 	);";
 	mysqli_query($link, $a_col);
@@ -66,10 +66,10 @@ if($link) {
 	//table for views in the archive
 	$a_vie = "CREATE TABLE archive_views (
 		id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-		name VARCHAR(255) NOT NULL,
-		description VARCHAR(4096) NOT NULL,
-		dat VARCHAR(4096) NOT NULL
-		cond VARCHAR(4096) NOT NULL
+		name TEXT NOT NULL,
+		description TEXT NOT NULL,
+		dat TEXT NOT NULL,
+		cond TEXT NOT NULL
 	);";
 	mysqli_query($link, $a_vie);
 	

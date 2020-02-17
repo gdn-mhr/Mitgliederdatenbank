@@ -1,31 +1,18 @@
 <?php
-	// Initialize the session
-	session_start();
 	
-	if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
-		// last request was more than 30 minutes ago
-		session_unset();     // unset $_SESSION variable for the run-time 
-		session_destroy();   // destroy session data in storage
-		header("location: login.php");
-		exit;
-	}
-	$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+	/**
+		* @package    Mitgliederdatenbank
+		*
+		* @copyright  Copyright (C) 2020 Gideon Mohr. All rights reserved.
+	*/
 	
-	// Check if the user is logged in, if not then redirect him to login page
-	if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-		header("location: login.php");
-		exit;
-	}
+	/**
+		This file enables the user to show a specific view, previously saved to SESSION.
+	*/
+	//Check if user is logged in
+	include 'includes/session.php';
 	
-	// Check if the user has valid access_level
-	if($_SESSION["access_level"]<=1){
-		header("location: welcome.php");
-		exit;
-	}
-	
-	// Include config file
-	require_once "includes/config.php";
-	
+	//Check input
 	if(!isset($_SESSION["selected_view"])){
 		header("location: show_views.php");
 		exit;
@@ -33,40 +20,13 @@
 	
 	$index = $_SESSION["selected_view"];
 	
+	//Start the HTML document with the header
+	include 'includes/header.php';
+	
 ?>
 
-<?php 
-	include 'includes/header.php';
-?>	
-<script>
-	var isset = false
-	function toggleFilter () {
-		if (isset == true) { 
-			$('#table').bootstrapTable('refreshOptions', {
-				filterControl: false,
-			});
-			isset = false;
-			} else {
-			$('#table').bootstrapTable('refreshOptions', {
-				filterControl: true,
-			});
-			isset = true;
-		}
-	}
-</script>
-
-<div id="toolbar">
-	<button id="add" class="btn btn-outline-success" onclick="window.location='new_entry.php';">
-		<i class="glyphicon glyphicon-remove"></i> Eintrag hinzufügen
-	</button>
-	<button id="filter-toggle" class="btn btn-outline-info" onClick="toggleFilter();" >
-		<i class="glyphicon glyphicon-remove"></i> Erweiterte Filter
-	</button>
-</div>
-
-
 <?php
-	
+	//This function helps to convert a condition array into a SQL statement
 	function arrayToWhere ($cond) {
 		if (is_array($cond[0])) {
 			if ($cond[1] == 1) {
@@ -107,20 +67,22 @@
 		}
 	}
 	
+	//First get the requested view
 	$sql = "SELECT id, name, description, dat, cond FROM views WHERE id='" . $index . "';";
 	$result = $link->query($sql);
 	
 	while($row = mysqli_fetch_array($result))
 	{
+		//There should only be one, however we take the last one
 		$id = $row['id'];
 		$name = $row['name'];
 		$desc = $row['description'];
 		$dat = unserialize($row['dat']);
 		$conds = unserialize($row['cond']);
 	}
+	unset($row);
 	
-	echo '<h2>Auszug: ' . $name . '</h2>';
-	//prepare statements
+	//prepare statements to retrieve columns, UNION in order to get them ordered right
 	$c = "SELECT id, name, access_level FROM columns WHERE id='1' UNION ";
 	foreach($dat as $idx) {
 		$c .= "SELECT id, name, access_level FROM columns WHERE id='".$idx."' UNION ";
@@ -130,98 +92,61 @@
 	
 	$colresult = $link->query($c);
 	
-	//prepare statement to retrieve real data
-	$a = "SELECT ";
-	
-	unset($row);
 	
 	$cols = array();
 	while($row = mysqli_fetch_array($colresult))
 	{
-		$a .= ("`" . $row['id'] . "` ,");
 		$cols[$row['id']] =  $row['name'];
 	}
+	unset($row);
+	
+	//prepare statement to retrieve data
+	$a = "SELECT ";
+	
+	foreach ($cols as $i => $n) {
+		$a .= ("`" . $i . "` ,");
+	}
+	
 	$a = rtrim($a, ",");
 	$a .= " FROM data"; 
 	
+	//any conditions? If yes construct them
 	if ($conds != []) {
 		$a = $a ." WHERE " . arrayToWhere($conds);
 	}	
-	
-	
+
 	$dataresult = $link->query($a);
 	
-	echo "<div><table  
-	id=\"table\"
-	data-toggle=\"table\"
-	data-locale=\"de-DE\"
-	data-toggle=\"table\"
-	data-search=\"true\"
-	data-show-columns=\"true\"
-	data-editable=\"true\"
-	data-editable-url=\"includes/post.php\"
-	data-toolbar=\"#toolbar\"
-	data-search=\"true\"
-	data-show-columns-toggle-all=\"true\"
-	data-show-export=\"true\"
-	data-click-to-select=\"true\"
-	data-pagination=\"true\"
-	data-id-field=\"ID\"
-	data-page-list=\"[10, 25, 50, 100, all]\"
-	data-filter-control=\"false\"
-	data-show-search-clear-button=\"true\">
-	<thead>
-	<tr>";
-	
-	foreach ($cols as $i => $cname) {
-		if ($i > 1) {
-			echo "<th data-field=\"". $i ."\" data-filter-control=\"input\" data-sortable=\"true\" data-editable=\"true\">" . $cname . "</th>";
-		} else {
-			echo "<th data-field=\"ID\" data-sortable=\"true\" data-editable=\"false\">" . $cname . "</th>";
-		}
-	}
-	echo "</tr>";
-	echo "</thead>";
-	unset($cname);
-	unset($i);
-	
-	//print_r ($dataresult);
-	
+	//retrieve data
+	$data = array();
+	$i = 0;
 	while($row = mysqli_fetch_array($dataresult, MYSQLI_NUM))
 	{
+		$tmp = array();
+		$j = 0;
 		
-		echo "<tr>";
-		
-		//print_r ($row);
-		
-		
-		foreach ($row as $data) {
-			echo "<td>" . $data . "</td>";
+		foreach ($row as $d) {
+			$tmp[$j] = $d;
+			$j = $j + 1;
 			
 		}
-		unset($data);
-		unset($i);
-		echo "</tr>";
+		
+		unset($d);
+		unset($j);
+		$data[$i] = $tmp;
+		$i = $i + 1;
 	}
-	echo "</table> </div>";
+	unset($i);
+	unset($row);
 	
+	//Title
+	$name = 'Auszug: ' . $name;
 	
+	$post = 'includes/post.php';
 	
-	
-	
-	
-	
+	//Declare a button to add more data
+	$buttons = '<button id="add" class="btn btn-outline-success" onclick="window.location=\'new_entry.php\';"><i class="glyphicon glyphicon-remove"></i> Eintrag hinzufügen</button>';
+
+	include 'includes/viewer.php';
 ?>
 
-<script>
-	$.fn.editable.defaults.mode = 'inline';
-	
-	$(function() {
-		$('#table').bootstrapTable();
-	})
-</script>
-
-
-<?php 
-	include 'includes/footer.php';
-?>	

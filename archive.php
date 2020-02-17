@@ -1,172 +1,98 @@
 <?php
-// Initialize the session
-session_start();
-
-if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
-    // last request was more than 30 minutes ago
-    session_unset();     // unset $_SESSION variable for the run-time 
-    session_destroy();   // destroy session data in storage
-	header("location: login.php");
-    exit;
-}
-$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
-
-if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
-    // last request was more than 30 minutes ago
-    session_unset();     // unset $_SESSION variable for the run-time 
-    session_destroy();   // destroy session data in storage
-}
-$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
- 
-// Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
-}
-
-// Check if the user has valid access_level
-if($_SESSION["access_level"]<=1){
-    header("location: welcome.php");
-    exit;
-}
-
-// Include config file
-require_once "includes/config.php";
-
-?>
-
-<?php 
-	include 'includes/header.php';
-?>	
-<h2>Archiv</h2>
-	<script>
-		var isset = false
-		function toggleFilter () {
-			if (isset == true) { 
-				 $('#table').bootstrapTable('refreshOptions', {
-					filterControl: false,
-				});
-				isset = false;
-			} else {
-				 $('#table').bootstrapTable('refreshOptions', {
-					filterControl: true,
-				});
-				isset = true;
-      }
-		}
-	</script>
 	
-		<div id="toolbar">
-		<button id="filter-toggle" class="btn btn-outline-info" onClick="toggleFilter();" >
-		<i class="glyphicon glyphicon-remove"></i> Erweiterte Filter
-		</button>
-	</div>
+	/**
+		* @package    Mitgliederdatenbank
+		*
+		* @copyright  Copyright (C) 2020 Gideon Mohr. All rights reserved.
+	*/
+	
+	/**
+		This file enables the user to show all entries in archive.
+	*/
+	//Check if user is logged in
+	include 'includes/session.php';
+	
+	//Start the HTML document with the header
+	include 'includes/header.php';
+	
+?>
 
 <?php
-
-function loadData($link) {
-
-$sql = "SELECT id, name, access_level FROM archive_columns";
-$colresult = $link->query($sql);
-
-//prepare statement to retrieve real data
-$a = "SELECT ";
-
-$cols = array();
-while($row = mysqli_fetch_array($colresult))
-{
-	$a .= ("`" . $row['id'] . "` ,");
-	$cols[$row['id']] =  $row['name'];
-}
-$a = rtrim($a, ",");
-$a .= " FROM archive_data"; 
-
-//echo "<p>" . $a . "</p>";
-
-$dataresult = $link->query($a);
-
-echo "<div><table  
-	id=\"table\"
-	data-toggle=\"table\"
-	data-locale=\"de-DE\"
-	data-toggle=\"table\"
-	data-search=\"true\"
-	data-show-columns=\"true\"
-	data-editable=\"true\"
-	data-editable-url=\"includes/archive_post.php\"
-	data-toolbar=\"#toolbar\"
-	data-search=\"true\"
-	data-show-columns-toggle-all=\"true\"
-	data-show-export=\"true\"
-	data-click-to-select=\"true\"
-	data-pagination=\"true\"
-	data-id-field=\"ID\"
-	data-page-list=\"[10, 25, 50, 100, all]\"
-	data-single-select=\"true\"
-	data-click-to-select=\"true\"
-	data-filter-control=\"false\"
-	data-show-search-clear-button=\"true\">
-	<thead>
-<tr>";
-//print_r ($cols);
-foreach ($cols as $i => $cname) {
-	if ($i > 1) {
-    echo "<th data-field=\"". $i . "\"   data-filter-control=\"input\" data-sortable=\"true\" data-editable=\"true\">" . $cname . "</th>";
-	} else {
-	echo "<th data-field=\"ID\"  data-sortable=\"true\" data-editable=\"false\" data-width=\"20px\">" . $cname . "</th>";
-	}
-}
-	echo '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents" data-width="30px">Wiederherstellen & <br>  Löschen</th>';
-echo "</tr>";
-echo "</thead>";
-unset($cname);
-unset($i);
-
-
-while($row = mysqli_fetch_array($dataresult, MYSQLI_NUM))
-{
 	
-echo "<tr>";
-
-//print_r ($row);
-
-
-foreach ($row as $data) {
-		echo "<td>" . $data . "</td>";
-
-}
-
-echo "<td data-record-id=\"" . $row['1'] . "\" data-record-title=\"" . $row['1'] . "\" ></td>";
-unset($data);
-unset($i);
-echo "</tr>";
-}
-echo "</table> </div>";
-
-
-
-}
-
-
-
+	//prepare statements to retrieve all columns
+	$sql = "SELECT id, name, access_level FROM archive_columns";
+	$colresult = $link->query($sql);
+	
+	
+	$cols = array();
+	while($row = mysqli_fetch_array($colresult))
+	{
+		$cols[$row['id']] =  $row['name'];
+	}
+	unset($row);
+	
+	//prepare statement to retrieve data
+	$a = "SELECT ";
+	
+	foreach ($cols as $i => $n) {
+		$a .= ("`" . $i . "` ,");
+	}
+	
+	$a = rtrim($a, ",");
+	$a .= " FROM archive_data"; 	
+	
+	$dataresult = $link->query($a);
+	
+	//retrieve data
+	$data = array();
+	$i = 0;
+	while($row = mysqli_fetch_array($dataresult, MYSQLI_NUM))
+	{
+		$tmp = array();
+		$j = 0;
+		
+		foreach ($row as $d) {
+			$tmp[$j] = $d;
+			$j = $j + 1;
+			
+		}
+		
+		unset($d);
+		unset($j);
+		$data[$i] = $tmp;
+		$i = $i + 1;
+	}
+	unset($i);
+	unset($row);
+	
+	//Title
+	$name = 'Archiv';
+	
+	$post = 'includes/archive_post.php';
+	
+	//column to delete & archivate
+	$additional_c = '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents" data-width="30px">Wiederherstellen & <br>  Löschen</th>';
+	
+	//additional data for last column
+	$additional_d = array();
+	$i = 0;
+	foreach ($data as $row) {
+		$additional_d[$i] = "<td data-record-id=\"" . $row['1'] . "\" data-record-title=\"" . $row['1'] . "\" ></td>";
+		$i = $i + 1;
+	}
+	unset($row);
 ?>
 
-<?php 
-	loadData($link);
-?>
 
 <script>
-$.fn.editable.defaults.mode = 'inline';
-
-  $(function() {
-    $('#table').bootstrapTable();
-  });
-  
-  function operateFormatter(value, row, index) {
-			return '<div> <a class="restore" href="javascript:void(0)" title="Wiederherstellen" data-toggle=\"modal\" data-target=\"#confirm-restore\"><i class="fa fa-trash-restore"  style="padding-right: 10px; color: green;"></i></a><a class="remove" href="javascript:void(0)" title="Löschen" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash" style="color: red;" ></i></a></div>';		
-  }
-  
-    var operateEvents = {
+	
+	//add icons to archivate & delete
+	function operateFormatter(value, row, index) {
+		return '<div> <a class="restore" href="javascript:void(0)" title="Wiederherstellen" data-toggle=\"modal\" data-target=\"#confirm-restore\"><i class="fa fa-trash-restore"  style="padding-right: 10px; color: green;"></i></a><a class="remove" href="javascript:void(0)" title="Löschen" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash" style="color: red;" ></i></a></div>';		
+	}
+	
+	//event handler
+	var operateEvents = {
     'click .remove': function (e, value, row, index) {
 		$('#confirm-delete').on('click', '.btn-ok', function(e) {
             var $modalDiv = $(e.delegateTarget);
@@ -181,8 +107,6 @@ $.fn.editable.defaults.mode = 'inline';
             $('.title', this).text(row['Name']);
             $('.btn-ok', this).data('recordId', data.recordId);
         });
-		//var id = row['ID'];
-		//$.post('includes/delete_column.php', { str: id });
     },
 	'click .restore': function (e, value, row, index) {
 		$('#confirm-restore').on('click', '.btn-ok', function(e) {
@@ -198,14 +122,12 @@ $.fn.editable.defaults.mode = 'inline';
             $('.title', this).text(row['Name']);
             $('.btn-ok', this).data('recordId', data.recordId);
         });
-		//var id = row['ID'];
-		//$.post('includes/delete_column.php', { str: id });
     }
 	}
-	</script>
+</script>
 
-
-   <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Modal to confirm delete -->
+	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -225,6 +147,7 @@ $.fn.editable.defaults.mode = 'inline';
         </div>
     </div>
 	
+	<!-- Modal to confirm restore -->
 	<div class="modal fade" id="confirm-restore" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -244,8 +167,8 @@ $.fn.editable.defaults.mode = 'inline';
             </div>
         </div>
     </div>
-
-    
-<?php 
-	include 'includes/footer.php';
-?>
+	
+	<?php
+		include 'includes/viewer.php';
+	?>
+	

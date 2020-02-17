@@ -24,9 +24,17 @@ body{
 	margin-bottom: 10px;
 }
 
+.modal {
+	z-index: 100000;
+}
+
+.modal-backdrop {
+	z-index: 50000;
+}
+
 #body {
-   /*padding-bottom:60px;*/   /* Height of the footer */
    padding:50px;
+   padding-bottom:0px;
 }
 
 #footer {
@@ -48,7 +56,6 @@ body{
 	display: block;
 	position: relative;
 	padding-bottom: 100px; /* height of your footer */
-	z-index: 1;
 }
 
 @media (max-width: 978px) {
