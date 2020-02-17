@@ -1,6 +1,6 @@
 <?php
 // Include config file
-require_once "includes/config.php";
+require_once "includes/template_config.php";
 if($link) {
 	//table for users
 	$usr = "CREATE TABLE users (
