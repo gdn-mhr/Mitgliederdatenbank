@@ -132,6 +132,7 @@
 		
 		<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 		
+		<link rel="shortcut icon" type="image/x-icon" href="includes/favicon.ico"/>
 	</head>
 	<body>
 		<!-- Navbar -->
