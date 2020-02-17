@@ -114,9 +114,9 @@ $.fn.editable.defaults.mode = 'inline';
   
     function operateFormatter(value, row, index) {
 		if (1 > value) {
-			return '<a class="remove" href="javascript:void(0)" title="Remove" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash"></i></a>'
+			return '<a class="remove" href="javascript:void(0)" title="Remove" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash" style="color: red;" ></i></a>'
 		} else {
-			return '<a class="locked" href="javascript:void(0)" title="This item has been locked."><i class="fa fa-lock"></i></a>'
+			return '<a class="locked" href="javascript:void(0)" title="This item has been locked."><i class="fa fa-lock" style="color: orange;" ></i></a>'
 		}
   }
   

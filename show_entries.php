@@ -38,7 +38,7 @@ require_once "includes/config.php";
 <?php 
 	include 'includes/header.php';
 ?>	
-
+<h2>Alle Daten</h2>
 
 
 	

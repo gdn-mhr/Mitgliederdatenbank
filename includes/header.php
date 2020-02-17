@@ -15,10 +15,12 @@
 
 	<link rel="stylesheet" href="includes/style.css">
 	
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+	
   </head>
   <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
   <!-- Brand -->
   <a class="navbar-brand" href="welcome.php"><img src="includes/Logo.png" alt="Logo" style="width:100px;"></a>
 
@@ -30,36 +32,39 @@
   <!-- Navbar links -->
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="show_views.php">Views</a>
+	  <li id="welcome.php" class="nav-item">
+        <a class="nav-link" href="welcome.php">Home</a>
       </li>
-      <li class="nav-item">
+      <li id="show_views.php" class="nav-item">
+        <a class="nav-link" href="show_views.php">Auszüge</a>
+      </li>
+      <li id="show_entries.php" class="nav-item">
         <a class="nav-link" href="show_entries.php">Alle Daten</a>
       </li>
-	  <li class="nav-item">
+	  <li id="edit_columns.php" class="nav-item">
         <a class="nav-link" href="edit_columns.php">Spalten verwalten</a>
       </li>
-	  <li class="nav-item dropdown">
+	  <li id="archive.php" class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Archiv
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="archive.php">Gesamtes Archiv</a>
-          <a class="dropdown-item" href="archive_show_views.php">Archiv-Views</a>
+          <a class="dropdown-item" href="archive_show_views.php">Archiv-Auszüge</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="archive_columns.php">Spalten im Archiv verwalten</a>
         </div>
       </li>
     </ul>
 	<ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+            <li id="logout.php" class="nav-item">
                 <a class="nav-link" href="logout.php">Abmelden</a>
             </li>
         </ul>
   </div>
 </nav>
-
-<div  style="padding:50px">
+<div id="container">
+	<div  id="body">
 
 	<!-- Include Bootstrap, Bootstrap Table and Extensions -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -77,12 +82,9 @@
 	<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
 	<script src="https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF/jspdf.min.js"></script>
 	<script src="https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
-
-
-	<?php
-		function console_log( $data ){
-		echo '<script>';
-		echo 'console.log('. json_encode( $data ) .')';
-		echo '</script>';
-		}
-	?>
+	
+	<script>
+			var self = '<?php echo htmlspecialchars(basename($_SERVER['PHP_SELF'])); ?>';
+			if (self.substr(0, 7) == 'archive') { self = 'archive.php';}
+			document.getElementById(self).classList.add('active');
+</script>

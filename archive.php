@@ -38,6 +38,7 @@ require_once "includes/config.php";
 <?php 
 	include 'includes/header.php';
 ?>	
+<h2>Archiv</h2>
 	<script>
 		var isset = false
 		function toggleFilter () {

@@ -79,8 +79,8 @@ while($row = mysqli_fetch_array($viewresult))
 	
 	$i = $row['id'];
 	$d = $row['description'];
-	$d = str_replace("<p>Achtung: Diese View wurde aufgrund einer gelöschten Spalte geändert.</p>","",$d);
-	$d .= "<p>Achtung: Diese View wurde aufgrund einer gelöschten Spalte geändert.</p>";
+	$d = str_replace("<p>Achtung: Dieser Auszug wurde aufgrund einer gelöschten Spalte geändert.</p>","",$d);
+	$d .= "<p>Achtung: Dieser Auszug wurde aufgrund einer gelöschten Spalte geändert.</p>";
 	$c = unserialize($row['dat']);
 
 	$new = array();

@@ -25,9 +25,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Willkomen.</h1>
     </div>
     <h4>Bitte nutze eine der folgenden Optionen, um die Datenbank anzusehen oder zu ändern!</h4>
-	<h5>Schaue dir Views an</h5>
-	<p><a style="display:inline-block; padding:5px; " href="show_views.php" class="btn btn-outline-info">Alle Views anzeigen</a>
-		<a style="display:inline-block; padding:5px;" href="new_view.php" class="btn btn-outline-success">Neue View erstellen</a></p>
+	<br>
+	<h5>Schaue dir Auszüge an</h5>
+	<p><a style="display:inline-block; padding:5px; " href="show_views.php" class="btn btn-outline-info">Alle Auszüge anzeigen</a>
+		<a style="display:inline-block; padding:5px;" href="new_view.php" class="btn btn-outline-success">Neuen Auszug erstellen</a></p>
 	
 	<h5>Neuen Eintrag erstellen</h5>
 	<p><a style="display:inline-block; padding:5px;" href="new_entry.php" class="btn btn-outline-success">Neuer Eintrag</a></p>
@@ -40,8 +41,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	
 	<hr>
 	
-	<h3>Benutzerverwaltung</h3>
+	<h5>Geh ins Archiv</h5>
+	<p><a style="display:inline-block; padding:5px;" href="archive.php" class="btn btn-outline-info">Archiv anzeigen</a>
+	   <a style="display:inline-block; padding:5px;" href="archive_views.php" class="btn btn-outline-info">Auszüge im Archiv anzeigen</a>
+	   <a style="display:inline-block; padding:5px;" href="archive_new_view.php" class="btn btn-outline-success">Neuen Auszug erstellen</a>
+	   <a style="display:inline-block; padding:5px;" href="archive_columns.php" class="btn btn-outline-info">Spalten anzeigen</a></p>
 	
+	<hr>
+	
+	<h3>Benutzerverwaltung</h3>
+	<br>
         <p><a style="display:inline-block; padding:5px;" href="reset-password.php" class="btn btn-outline-warning">Passwort ändern</a>
         <a style="display:inline-block; padding:5px;" href="logout.php" class="btn btn-outline-danger">Abmelden</a>
         <?php if ( $_SESSION["access_level"] > 4) {echo '<a style="display:inline-block; padding:5px;" href="register.php" class="btn btn-outline-success">Neuen Benutzer erstellen</a>';} ?>

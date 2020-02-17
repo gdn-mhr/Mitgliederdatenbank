@@ -115,6 +115,8 @@ $desc = $row['description'];
 $dat = unserialize($row['dat']);
 $conds = unserialize($row['cond']);
 }
+
+echo '<h2>Auszug: ' . $name . '</h2>';
 //prepare statements
 $c = "SELECT id, name, access_level FROM archive_columns WHERE id='1' UNION ";
 foreach($dat as $idx) {

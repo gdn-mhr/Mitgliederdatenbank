@@ -32,7 +32,7 @@ require_once "includes/config.php";
 	include 'includes/header.php';
 ?>	
 
-<div style="width:80%; min-width: 600px; display: block; margin-left: auto; margin-right: auto;">
+<div style="max-width: 850px; display: block; margin-left: auto; margin-right: auto;">
 <h2>Spalten verwalten</h2>
 
 <?php
@@ -125,9 +125,9 @@ $.fn.editable.defaults.mode = 'inline';
   
     function operateFormatter(value, row, index) {
 		if(value == "true") {
-			return '<a class="remove" href="javascript:void(0)" title="Löschen" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash"></i></a>'
+			return '<a class="remove" href="javascript:void(0)" title="Löschen" data-toggle=\"modal\" data-target=\"#confirm-delete\"><i class="fa fa-trash" style="color: red;" ></i></a>'
 		} else {
-			return '<a class="locked" href="javascript:void(0)" title="Diese Spalte kann derzeit nicht gelöscht werden (wahscheinlich ist sie noch in der Datenbank vorhanden)."><i class="fa fa-lock"></i></a>'
+			return '<a class="locked" href="javascript:void(0)" title="Diese Spalte kann derzeit nicht gelöscht werden (wahscheinlich ist sie noch in der Datenbank vorhanden)."><i class="fa fa-lock" style="color: orange;" ></i></a>'
 		}
   }
   

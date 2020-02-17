@@ -56,8 +56,8 @@ while($row = mysqli_fetch_array($colresult))
 	$ns[$row['id']] =  $row['name'];
 	$ds[$row['id']] =  $row['description'];
 }
-echo '<div style="max-width: 850px; padding: 20px; display: block; margin-left: auto; margin-right: auto;">';
-echo '<h2>Views verwalten</h2><p></p>';
+echo '<div style="max-width: 850px; display: block; margin-left: auto; margin-right: auto;">';
+echo '<h2>Auszüge verwalten</h2><p></p>';
 echo '<div class="table-responsive"><table class="table table-bordered" id="dynamic_field_c"> <col width="auto"><col width="auto"><col width="350px">';
 foreach($ns as $i => $n) {
 	echo '<tr>';
@@ -87,7 +87,7 @@ echo '</table></div></div>';
 	
 	
 <div style="max-width: 400px; display: block; margin-left: auto; margin-right: auto;">
-<h2>Neue View hinzufügen</h2>
+<h2>Neuen Auszug hinzufügen</h2>
 <form action="archive_new_view.php" method="POST" role="form" class="form-horizontal">
   <button type="submit" class="btn btn-outline-success">Neu</button>
 </form>
