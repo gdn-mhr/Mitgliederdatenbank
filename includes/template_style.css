@@ -24,6 +24,11 @@ body{
 	margin-bottom: 10px;
 }
 
+.btn-secondary {
+	margin-right: 0px !important;
+	margin-bottom: 0px !important;
+}
+
 .modal {
 	z-index: 100000;
 }

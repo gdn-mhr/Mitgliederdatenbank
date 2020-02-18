@@ -140,7 +140,7 @@
 				});
 		},
 		'click .locked': function (e, value, row, index) {
-			alert('You are not allowed to delete this item!');
+		
 		}
 	}
 </script>
