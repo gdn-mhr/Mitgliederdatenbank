@@ -5,7 +5,7 @@ if($link) {
 	//table for users
 	$usr = "CREATE TABLE users (
 		id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-		username TEXT NOT NULL UNIQUE,
+		username VARCHAR(1024) NOT NULL UNIQUE,
 		password TEXT NOT NULL,
 		access_level VARCHAR(1) NOT NULL,
 		created_at DATETIME DEFAULT CURRENT_TIMESTAMP

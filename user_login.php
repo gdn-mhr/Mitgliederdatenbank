@@ -85,6 +85,7 @@
 								// Store data in session variables
 								$_SESSION["loggedin"] = true;
 								$_SESSION["id"] = password_hash($username, PASSWORD_DEFAULT);
+								$_SESSION["user"] = $id;
 								$_SESSION["username"] = $username; 
 								$_SESSION["access_level"] = $access_level;
 								

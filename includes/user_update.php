@@ -12,6 +12,12 @@
 	//Check if user is logged in
 	include 'template_session.php';
 	
+	// Check if the user has valid access_level
+	if($_SESSION["access_level"]<5){
+		header("location: index.php");
+		exit;
+	}
+	
 	//validate input
 	if (!(isset($_POST['name']))) {
 		exit;

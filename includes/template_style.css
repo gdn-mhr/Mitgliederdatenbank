@@ -32,6 +32,10 @@ body{
 	z-index: 50000;
 }
 
+.right_dd {
+	margin-left: -100px;
+}
+
 #body {
    padding:50px;
    padding-bottom:0px;
@@ -69,5 +73,12 @@ body{
 	padding-right:15px;
 	padding-bottom:20px;
 	padding-top:20px;
+	}
+}
+
+@media (max-width: 767px) {
+    
+	.right_dd {
+		margin-left: 0px;
 	}
 }

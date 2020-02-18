@@ -11,6 +11,12 @@
 	*/
 	//Check if user is logged in
 	include 'includes/template_session.php';
+	
+	// Check if the user has valid access_level
+	if($_SESSION["access_level"]<5){
+		header("location: index.php");
+		exit;
+	}
 
 	include 'includes/template_header.php';
 ?>	
@@ -57,7 +63,7 @@
 			echo "<td>" . $i . "</td>";
 			echo "<td>" . $cname . "</td>";
 			echo "<td>" . $al[$i] . "</td>";
-			if ($_SESSION["id"] == $i) {
+			if ($_SESSION["user"] == $i) {
 				echo "<td data-record-id=\"" . $i . "\" data-record-title=\"" . $cname . "\" >1</td>";
 				} else {
 				echo "<td data-record-id=\"" . $i . "\" data-record-title=\"" . $cname . "\" > </td>";
