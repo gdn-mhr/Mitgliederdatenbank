@@ -3,7 +3,7 @@
 <h2><?php echo $name ?></h2>
 
 <div>
-	<table id="table" data-toggle="table" data-locale="de-DE" data-toggle="table" data-search="true" data-show-columns="true" data-editable="true" data-editable-url="<?php echo $post; ?>" data-toolbar="#toolbar" data-search="true" data-show-columns-toggle-all="true" data-show-export="true" data-click-to-select="true" data-pagination="true" data-id-field="ID" data-page-list="[10, 25, 50, 100, all]" data-filter-control="false" data-show-search-clear-button="true">
+	<table id="table" data-toggle="table" data-locale="de-DE" data-toggle="table" data-search="true" data-show-columns="true" data-editable="true" data-editable-url="<?php echo $post; ?>" data-toolbar="#toolbar" data-search="true" data-show-columns-toggle-all="true" data-show-export="true" data-click-to-select="true" data-pagination="true" data-id-field="ID" data-page-list="[10, 25, 50, 100, all]" data-page-size="50" data-filter-control="false" data-show-search-clear-button="true">
 		<thead>
 			<tr>
 				<?php
