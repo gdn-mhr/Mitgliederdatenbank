@@ -42,6 +42,7 @@
 		}	
 		
 		
+	
 		$a = "SELECT id FROM columns";
 		$mcolresult = $link->query($a);
 		
@@ -60,6 +61,7 @@
 			
 			$b = $b . "`" . $val . "` ,";
 			$c = $c . "'" . $dat[($val- $OFFSET_DATABASE)] . "' ,";
+			$c = $c . "'" . $dat[($val - $OFFSET_DATABASE)] . "' ,";
 		}
 		unset($val);
 		$b = rtrim($b, ",");
