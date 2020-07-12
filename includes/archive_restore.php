@@ -59,7 +59,6 @@
 		foreach ($lock_cols as $val) {
 			
 			$b = $b . "`" . $val . "` ,";
-			$c = $c . "'" . $dat[($val- $OFFSET_DATABASE)] . "' ,";
 			$c = $c . "'" . $dat[($val - $OFFSET_DATABASE)] . "' ,";
 		}
 		unset($val);
