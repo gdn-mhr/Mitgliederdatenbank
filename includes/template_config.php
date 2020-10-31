@@ -32,7 +32,7 @@ define('ORG', 'ORGANISATION');
 //SMTP
 define('SMTP_HOST', 'example.com');
 define('SMTP_PORT', 25);
-define('SMTP_USER', 'log@exampole.com');
+define('SMTP_USER', 'mail user');
 define('SMTP_PASSWORD', 'password');
 
 define('NAME_SCHEME', [1]);
