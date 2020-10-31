@@ -1,0 +1,9 @@
+[submodule ".\\includes\\PHPMailer"]
+	path = .\\includes\\PHPMailer
+	url = https://github.com/PHPMailer/PHPMailer.git
+[submodule "includes\\bootstrap-table"]
+	path = includes\\bootstrap-table
+	url = https://github.com/wenzhixin/bootstrap-table.git
+[submodule "includes\\x-editable"]
+	path = includes\\x-editable
+	url = https://github.com/Talv/x-editable.git
