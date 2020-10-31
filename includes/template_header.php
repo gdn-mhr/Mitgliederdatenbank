@@ -63,12 +63,15 @@
 					</li>
 				</ul>
 				<ul class="navbar-nav ml-auto">
+				<li id="loggerUI.php" class="nav-item">
+						<a class="nav-link" href="loggerUI.php">Logs</a>
+					</li>
 				<li id="user.php" class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Benutzer
 						</a>
 						<div class="dropdown-menu right_dd" aria-labelledby="navbarDropdown2">
-							<a class="dropdown-item" href="user_password.php">Passwort ändern</a>
+							<?php if (!( isset($_SESSION["sso"]) &&  isset($_SESSION["sso"]) == 1)) {echo '<a class="dropdown-item" href="user_password.php">Passwort ändern</a>';} ?>
 							<?php 
 								if ($_SESSION['access_level']>=5) {
 									echo '<a class="dropdown-item" href="user_list.php">Benutzer verwalten</a>';
@@ -106,4 +109,4 @@
 					var self = '<?php echo htmlspecialchars(basename($_SERVER['PHP_SELF'])); ?>';
 					if (self.substr(0, 7) == 'archive') { self = 'archive_show';} else if (self.includes("view")) { self = 'data_view_list.php'; } else if (self.includes("user")) { self = 'user.php'; }
 					document.getElementById(self).classList.add('active');
-				</script>				
+				</script>

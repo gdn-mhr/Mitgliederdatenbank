@@ -1,44 +1,40 @@
 <?php
-	
-	/**
-		* @package    Mitgliederdatenbank
-		*
-		* @copyright  Copyright (C) 2020 Gideon Mohr. All rights reserved.
-	*/
-	
-	/**
-		This file lists all users.
-	*/
-	//Check if user is logged in
-	include 'includes/template_session.php';
-	
-	// Check if the user has valid access_level
-	if($_SESSION["access_level"]<5){
-		header("location: index.php");
-		exit;
-	}
 
-	include 'includes/template_header.php';
+/**
+ * @package    Mitgliederdatenbank
+ *
+ * @copyright  Copyright (C) 2020 Gideon Mohr. All rights reserved.
+ */
+
+/**
+ *	This file lists all users.
+ */
+//Check if user is logged in
+include 'includes/template_session.php';
+
+// Check if the user has valid access_level
+if ($_SESSION["access_level"] < 5) {
+  header("location: index.php");
+  exit();
+}
+
+include 'includes/template_header.php';
 ?>	
 <h2>Benutzer verwalten</h2>
 
 <?php
-		
-		$sql = "SELECT id, username, access_level FROM users;";
-		$result = $link->query($sql);
-		
-		//prepare statement to retrieve real data
-		
-		
-		$cols = array();
-		while($row = mysqli_fetch_array($result))
-		{
-			$cols[$row['id']] =  $row['username'];
-			$al[$row['id']] =  $row['access_level'];
-		}
-		
-		
-		echo "<div><table  
+$sql = "SELECT id, username, access_level FROM users;";
+$result = $link->query($sql);
+
+//prepare statement to retrieve real data
+
+$cols = [];
+while ($row = mysqli_fetch_array($result)) {
+  $cols[$row['id']] = $row['username'];
+  $al[$row['id']] = $row['access_level'];
+}
+
+echo "<div><table  
 		data-locale=\"de-DE\"
 		data-toggle=\"table\"
 		data-search=\"true\"
@@ -50,29 +46,37 @@
 		data-editable-url=\"includes/user_update.php\">
 		<thead>
 		<tr>";
-		
-		echo "<th data-field=\"ID\" data-editable=\"false\">ID</th>";
-		echo "<th data-field=\"username\" data-editable=\"true\">Name</th>";
-		echo "<th data-field=\"access_level\" data-editable=\"true\">Access Level</th>";
-		echo '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents">Delete</th>';
-		echo "</tr>";
-		echo "</thead>";		
-		
-		foreach ($cols as $i => $cname) {
-			echo "<tr>";
-			echo "<td>" . $i . "</td>";
-			echo "<td>" . $cname . "</td>";
-			echo "<td>" . $al[$i] . "</td>";
-			if ($_SESSION["user"] == $i) {
-				echo "<td data-record-id=\"" . $i . "\" data-record-title=\"" . $cname . "\" >1</td>";
-				} else {
-				echo "<td data-record-id=\"" . $i . "\" data-record-title=\"" . $cname . "\" > </td>";
-			}
-			echo "</tr>";
-		}
-		unset($cname);
-		unset($i);
-		echo "</table> </div>";	
+
+echo "<th data-field=\"ID\" data-editable=\"false\">ID</th>";
+echo "<th data-field=\"username\" data-editable=\"true\">Name</th>";
+echo "<th data-field=\"access_level\" data-editable=\"true\">Access Level</th>";
+echo '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents">Delete</th>';
+echo "</tr>";
+echo "</thead>";
+
+foreach ($cols as $i => $cname) {
+  echo "<tr>";
+  echo "<td>" . $i . "</td>";
+  echo "<td>" . $cname . "</td>";
+  echo "<td>" . $al[$i] . "</td>";
+  if ($_SESSION["user"] == $i) {
+    echo "<td data-record-id=\"" .
+      $i .
+      "\" data-record-title=\"" .
+      $cname .
+      "\" >1</td>";
+  } else {
+    echo "<td data-record-id=\"" .
+      $i .
+      "\" data-record-title=\"" .
+      $cname .
+      "\" > </td>";
+  }
+  echo "</tr>";
+}
+unset($cname);
+unset($i);
+echo "</table> </div>";
 ?>
 
 <hr>
@@ -104,9 +108,7 @@
 	</div>
 </div>
 
-<?php 
-	include 'includes/template_footer.php';
-?>
+<?php include 'includes/template_footer.php'; ?>
 
 <script>
 	$.fn.editable.defaults.mode = 'inline';

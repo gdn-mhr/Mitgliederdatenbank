@@ -1,86 +1,86 @@
 <?php
-	
-	/**
-		* @package    Mitgliederdatenbank
-		*
-		* @copyright  Copyright (C) 2020 Gideon Mohr. All rights reserved.
-	*/
-	
-	/**
-		This file enables the user to show all entries in archive.
-	*/
-	//Check if user is logged in
-	include 'includes/template_session.php';
-	
-	//Start the HTML document with the header
-	include 'includes/template_header.php';
-	
+
+/**
+ * @package    Mitgliederdatenbank
+ *
+ * @copyright  Copyright (C) 2020 Gideon Mohr. All rights reserved.
+ */
+
+/**
+ *	This file enables the user to show all entries in archive.
+ */
+//Check if user is logged in
+include 'includes/template_session.php';
+
+//Start the HTML document with the header
+include 'includes/template_header.php';
 ?>
 
 <?php
-	
-	//prepare statements to retrieve all columns
-	$sql = "SELECT id, name, access_level FROM archive_columns";
-	$colresult = $link->query($sql);
-	
-	
-	$cols = array();
-	while($row = mysqli_fetch_array($colresult))
-	{
-		$cols[$row['id']] =  $row['name'];
-	}
-	unset($row);
-	
-	//prepare statement to retrieve data
-	$a = "SELECT ";
-	
-	foreach ($cols as $i => $n) {
-		$a .= ("`" . $i . "` ,");
-	}
-	
-	$a = rtrim($a, ",");
-	$a .= " FROM archive_data"; 	
-	
-	$dataresult = $link->query($a);
-	
-	//retrieve data
-	$data = array();
-	$i = 0;
-	while($row = mysqli_fetch_array($dataresult, MYSQLI_NUM))
-	{
-		$tmp = array();
-		$j = 0;
-		
-		foreach ($row as $d) {
-			$tmp[$j] = $d;
-			$j = $j + 1;
-			
-		}
-		
-		unset($d);
-		unset($j);
-		$data[$i] = $tmp;
-		$i = $i + 1;
-	}
-	unset($i);
-	unset($row);
-	
-	//Title
-	$name = 'Archiv';
-	
-	$post = 'includes/archive_update.php';
-	
-	//column to delete & archivate
-	$additional_c = '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents" data-width="30px">Wiederherstellen & <br>  Löschen</th>';
-	
-	//additional data for last column
-	$additional_d = array();
-	$i = 0;
-	foreach ($data as $row) {
-		$additional_d[$i] = "<td data-record-id=\"" . $row['1'] . "\" data-record-title=\"" . $row['1'] . "\" ></td>";
-		$i = $i + 1;
-	}
-	unset($row);
+//prepare statements to retrieve all columns
+$sql = "SELECT id, name, access_level FROM archive_columns";
+$colresult = $link->query($sql);
+
+$cols = [];
+while ($row = mysqli_fetch_array($colresult)) {
+  $cols[$row['id']] = $row['name'];
+}
+unset($row);
+
+//prepare statement to retrieve data
+$a = "SELECT ";
+
+foreach ($cols as $i => $n) {
+  $a .= "`" . $i . "` ,";
+}
+
+$a = rtrim($a, ",");
+$a .= " FROM archive_data";
+
+$dataresult = $link->query($a);
+
+//retrieve data
+$data = [];
+$i = 0;
+while ($row = mysqli_fetch_array($dataresult, MYSQLI_NUM)) {
+  $tmp = [];
+  $j = 0;
+
+  foreach ($row as $d) {
+    $tmp[$j] = $d;
+    $j = $j + 1;
+  }
+
+  unset($d);
+  unset($j);
+  $data[$i] = $tmp;
+  $i = $i + 1;
+}
+unset($i);
+unset($row);
+
+//Title
+$name = 'Archiv';
+
+$post = 'includes/archive_update.php';
+
+//column to delete & archivate
+$additional_c =
+  '<th data-field="Delete" data-editable="false" data-formatter="operateFormatter" data-events="operateEvents" data-width="30px">Wiederherstellen & <br>  Löschen</th>';
+
+//additional data for last column
+$additional_d = [];
+$i = 0;
+foreach ($data as $row) {
+  $additional_d[$i] =
+    "<td data-record-id=\"" .
+    $row['1'] .
+    "\" data-record-title=\"" .
+    $row['1'] .
+    "\" ></td>";
+  $i = $i + 1;
+}
+unset($row);
 ?>
 
 
@@ -168,7 +168,5 @@
         </div>
     </div>
 	
-	<?php
-		include 'includes/template_table.php';
-	?>
+	<?php include 'includes/template_table.php'; ?>
 	
